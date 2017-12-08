@@ -2333,6 +2333,9 @@ function Find-Principal
         $IdentityType
     )
 
+    # FindByIdentity does not support UPN - dropping domain part of the UPN if present
+    if ($IdentityValue -match '@') { $IdentityValue = $IdentityValue.Split('@')[0] }
+
     if ($PSBoundParameters.ContainsKey('IdentityType'))
     {
         return [System.DirectoryServices.AccountManagement.Principal]::FindByIdentity($PrincipalContext, $IdentityType, $IdentityValue)
